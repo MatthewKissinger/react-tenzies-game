@@ -1,24 +1,24 @@
 import React from "react"
 import Die from "./components/Die"
-
-/**
- * Challenge: Create a `Roll Dice` button that will re-roll
- * all 10 dice
- * 
- * Clicking the button should generate a new array of numbers
- * and set the `dice` state to that new array (thus re-rendering
- * the array to the page)
- */
+import { nanoid } from "nanoid";
 
 export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice());
 
-    const dieElements = dice.map((die, index) => {
+    const [tenzies, setTenzies] = React.useState(false);
+
+    React.useEffect(() => {
+        console.log("Dice state changed")
+    }, [dice]);
+
+    const dieElements = dice.map((die) => {
         return (
             <Die 
-                key={index}
-                value={die}
+                key={die.id}
+                value={die.value}
+                isHeld={die.isHeld}
+                holdDice={(event) => holdDice(event, die.id)}
             />
         )
     })
@@ -28,18 +28,41 @@ export default function App() {
         const length = 10;
         
         for (let i = 0; i < length; i++) {
-            newDice.push(Math.floor(Math.random() * 6) + 1)
-        }
 
+            newDice.push({
+                value: Math.floor(Math.random() * 6) + 1,
+                isHeld: false,
+                id: nanoid()
+            });
+        }
         return newDice;
     }
 
     function clickRoll() {
-        setDice(allNewDice())
+            setDice(oldDice => {
+                return oldDice.map(die => {
+                    return die.isHeld ? 
+                    die : 
+                    {...die, value: Math.floor(Math.random() * 6) + 1}
+                })
+            })
+    }
+
+    function holdDice(event, id) {
+
+        setDice(oldDice => {
+            return oldDice.map(die => {
+                return die.id === id ? 
+                {...die, isHeld: !die.isHeld} :
+                die
+            })
+        })
     }
 
     return (
         <main>
+            <h1 className="title">Tenzies</h1>
+            <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             <div className="dice-container">
                 {dieElements}
             </div>
