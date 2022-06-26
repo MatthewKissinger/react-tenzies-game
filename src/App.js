@@ -4,12 +4,33 @@ import { nanoid } from "nanoid";
 
 export default function App() {
 
+/**
+ * Challenge: Check the dice array for these winning conditions:
+ * 1. All dice are held, and
+ * 2. all dice have the same value
+ * 
+ * If both conditions are true, set `tenzies` to true and log
+ * "You won!" to the console
+ */
+
     const [dice, setDice] = React.useState(allNewDice());
 
     const [tenzies, setTenzies] = React.useState(false);
 
     React.useEffect(() => {
         console.log("Dice state changed")
+        const isHeldArray = dice.filter(die => {
+            return die.isHeld;
+        })
+
+        const diceSameValueArray = dice.filter(die => {
+            return die.value === dice[0].value;
+        })
+
+        if (isHeldArray.length === 10 && diceSameValueArray.length === 10) {
+            console.log('You won');
+        }
+
     }, [dice]);
 
     const dieElements = dice.map((die) => {
