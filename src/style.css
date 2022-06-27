@@ -42,7 +42,6 @@ main {
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 1.25rem;
-    /* border: 1px solid red; */
 }
 
 .die {
@@ -55,7 +54,6 @@ main {
     justify-content: center;
     height: 30px;
     width: 30px;
-    /* border: 1px solid green; */
     border-radius: 4px;
     box-shadow: 0px 4px 4px 0px #00000040;
     cursor: pointer;
@@ -68,8 +66,8 @@ main {
 .roll-btn {
     border: none;
     border-radius: 5px;
-    width: 5rem;
-    height: 2rem;
+    width: 6rem;
+    height: 2.25rem;
     background-color: #5035FF;
     color: white;
     font-family: 'Karla', sans-serif;
