@@ -37,6 +37,23 @@ main {
     padding: 1rem;
 }
 
+.game-stats-container {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+    margin-bottom: 1rem;
+}
+
+.timer {
+    font-family: 'Inter', sans-serif;
+}
+
+.roll-counter {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+}
+
 .dice-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
