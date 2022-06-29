@@ -7,7 +7,7 @@ export default function App() {
 
     // 1. Put Real Dots on the Dice -- DONE
     // 2. Track the Number of Rolls -- DONE
-    // 3. Track the time it took to win -- halfway
+    // 3. Track the time it took to win -- DONE
     // 4. Save Number of Rolls and the Time it Took to win to LocalStorage
     // 5. Display get Data from LocalStorage and Display it for the User
 
@@ -17,11 +17,20 @@ export default function App() {
 
     const [rolls, setRolls] = React.useState(0);
 
-    const [timer, setTimer] = React.useState({
-        display: '00:00',
-        seconds: 0, 
-        interval: null
-    })
+    const [timer, setTimer] = React.useState(0);
+
+    React.useEffect(() => {
+        if (!tenzies) {
+          let sec = setInterval(() => {
+            setTimer((prevTimer) => prevTimer + 1);
+          }, 1000);
+          return () => {
+            clearInterval(sec);
+          };
+        } else {
+          setTimer((prevTimer) => prevTimer);
+        }
+      }, [tenzies]);
 
     // check for game winning conditions
     React.useEffect(() => {
@@ -104,6 +113,7 @@ export default function App() {
         setTenzies(false);
         setDice(allNewDice);
         setRolls(0);
+        setTimer(0)
     }
 
     return (
@@ -112,7 +122,7 @@ export default function App() {
             <h1 className="title">Tenzies</h1>
             <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             <div className="game-stats-container">
-                <div className="timer">Time:</div>
+                <div className="timer">Time: {timer}</div>
                 <h3 className="roll-counter"># of Rolls: {rolls}</h3>
             </div>
             <div className="dice-container">
