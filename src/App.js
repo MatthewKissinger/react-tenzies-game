@@ -5,9 +5,9 @@ import Confetti from 'react-confetti'
 
 export default function App() {
 
-    // 1. Put Real Dots on the Dice
+    // 1. Put Real Dots on the Dice -- DONE
     // 2. Track the Number of Rolls -- DONE
-    // 3. Track the time it took to win
+    // 3. Track the time it took to win -- halfway
     // 4. Save Number of Rolls and the Time it Took to win to LocalStorage
     // 5. Display get Data from LocalStorage and Display it for the User
 
@@ -17,7 +17,11 @@ export default function App() {
 
     const [rolls, setRolls] = React.useState(0);
 
-    const [timer, setTimer] = React.useState('00:00');
+    const [timer, setTimer] = React.useState({
+        display: '00:00',
+        seconds: 0, 
+        interval: null
+    })
 
     // check for game winning conditions
     React.useEffect(() => {
@@ -39,14 +43,7 @@ export default function App() {
             setTenzies(true);
         }
     }, [dice]);
-
-    // check if game is won to stop the timer 
-    React.useEffect(() => {
-        if (tenzies) {
-            // stop timer function 
-        }
-    }, [tenzies])
-
+   
     const dieElements = dice.map((die) => {
         return (
             <Die 
@@ -57,29 +54,6 @@ export default function App() {
             />
         )
     })
-
-    let seconds = 0;
-    let interval = null;
-
-    function updateTimer(){
-        seconds++;
-
-        let secs = seconds % 60;
-        let mins = Math.floor(seconds / 60);
-
-        if (secs < 10) secs = `0${secs}`;
-        if (mins < 10) mins = `0${mins}`;
-
-        console.log(`${mins}:${secs}`)
-
-        setTimer(`${mins}:${secs}`);
-    }
-
-    function startTimer() {
-        if (!interval) {
-            interval = setInterval(updateTimer, 1000);
-        }
-    }
 
     function allNewDice() {
         const newDice = [];
@@ -106,7 +80,7 @@ export default function App() {
                     {...die, value: Math.floor(Math.random() * 6) + 1}
                 })
             })
-            startTimer();
+
             setRolls(oldRolls => {
                 return oldRolls + 1
             })
@@ -138,7 +112,7 @@ export default function App() {
             <h1 className="title">Tenzies</h1>
             <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
             <div className="game-stats-container">
-                <div className="timer">Time: {timer} </div>
+                <div className="timer">Time:</div>
                 <h3 className="roll-counter"># of Rolls: {rolls}</h3>
             </div>
             <div className="dice-container">

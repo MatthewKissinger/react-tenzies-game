@@ -13,7 +13,7 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 320px;
+    height: 360px;
     width: 320px;
     background-color: #f5f5f5;
     margin: 0 auto;
@@ -41,17 +41,18 @@ main {
     display: flex;
     width: 80%;
     justify-content: space-between;
-    /* border: 1px solid red; */
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .timer {
     font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
 }
 
 .roll-counter {
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: .75rem;
 }
 
 .dice-container {
@@ -74,7 +75,90 @@ main {
     border-radius: 4px;
     box-shadow: 0px 4px 4px 0px #00000040;
     cursor: pointer;
+    padding: 0;
 }
+
+.dot {
+    padding: 0;
+    height: .3rem;
+    width: .3rem;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.one-dot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.two-dots, .three-dots, .four-dots, .five-dots, .six-dots {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-rows: repeat(3, 8px);
+    grid-template-columns: repeat(3, 8px);
+}
+
+.two-dots .dot:first-child, .four-dots .dot:first-child, .five-dots .dot:first-child, .six-dots .dot:first-child {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2; 
+    justify-self: center;
+}
+
+.two-dots .dot:nth-child(2), .four-dots .dot:nth-child(4) {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    justify-self: center;
+}
+
+.three-dots .dot:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    justify-self: center;
+}
+
+.three-dots .dot:nth-child(3), .five-dots .dot:nth-child(4), .six-dots .dot:nth-child(4) {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+    justify-self: center;
+}
+
+.four-dots .dot:nth-child(2), .five-dots .dot:nth-child(2), .six-dots .dot:nth-child(2) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    justify-self: center;
+}
+
+.four-dots .dot:nth-child(3), .five-dots .dot:nth-child(3), .six-dots .dot:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    justify-self: center;
+}
+
+.five-dots .dot:nth-child(5) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    justify-self: center;
+}
+
+.six-dots .dot:nth-child(5) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    justify-self: center;
+}
+
+.six-dots .dot:nth-child(6) {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    justify-self: center;
+}
+
+
+
+
+
+
 
 .die.isHeld {
     background-color: #59E391;
