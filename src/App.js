@@ -8,8 +8,15 @@ export default function App() {
     // 1. Put Real Dots on the Dice -- DONE
     // 2. Track the Number of Rolls -- DONE
     // 3. Track the time it took to win -- DONE
-    // 4. Save Number of Rolls and the Time it Took to win to LocalStorage
-    // 5. Display get Data from LocalStorage and Display it for the User
+    // 4. Save Number of Rolls and the Time it Took to win to LocalStorage -- DONE
+    // 5. Display get Data from LocalStorage and Display it for the User -- DONE
+
+
+    // set the inital leaderBoard with an arbitrarilly high number
+    const [leaderBoard, setLeaderBoard] = React.useState({
+        time: 500, 
+        rolls: 100
+    });
 
     const [dice, setDice] = React.useState(allNewDice());
 
@@ -20,25 +27,37 @@ export default function App() {
     const [timer, setTimer] = React.useState(0);
 
     React.useEffect(() => {
+        const leaderBoard = JSON.parse(localStorage.getItem('leaderBoard'));
+        if (leaderBoard) {
+            setLeaderBoard(leaderBoard);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        localStorage.setItem('leaderBoard', JSON.stringify(leaderBoard));
+    }, [leaderBoard]); 
+
+    React.useEffect(() => {
         if (!tenzies) {
           let sec = setInterval(() => {
-            setTimer((prevTimer) => prevTimer + 1);
+            setTimer((prevState) => prevState + 1);
           }, 1000);
           return () => {
             clearInterval(sec);
           };
         } else {
-          setTimer((prevTimer) => prevTimer);
+          setTimer((prevState) => prevState);
+        setLeaderBoard((prevState) => {
+            return {
+                time: timer < prevState.time ? timer : prevState.time,
+                rolls: rolls < prevState.rolls ? rolls : prevState.rolls
+            }
+          })          
         }
-      }, [tenzies]);
+      }, [tenzies, timer, rolls]);
 
     // check for game winning conditions
     React.useEffect(() => {
-
-        // Bob's solution
-        // const allHeld = dice.every(die => die.isHeld);
-        // const firstValue = dice[0].value;
-        // const allSameValue = dice.every(die => die.value === firstValue);
 
         const isHeldArray = dice.filter(die => {
             return die.isHeld;
@@ -113,7 +132,7 @@ export default function App() {
         setTenzies(false);
         setDice(allNewDice);
         setRolls(0);
-        setTimer(0)
+        setTimer(0);
     }
 
     return (
@@ -131,6 +150,10 @@ export default function App() {
             <button className="roll-btn" onClick={clickRoll}>
                 {tenzies ? "New Game" : "Roll"}
             </button>
+            <div className="game-best-container">
+                <h4 className="best-time">Best Time: {leaderBoard.time}</h4>
+                <h4 className="best-rolls">Best Rolls: {leaderBoard.rolls}</h4>
+            </div>
         </main>
     )
 }
